@@ -1,18 +1,11 @@
 package com.example.devblock
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import com.example.devblock.ui.main.MainFragment
+import androidx.navigation.fragment.NavHostFragment
+import com.example.devblock.base.BaseActivity
+import com.example.devblock.databinding.MainActivityBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-class MainActivity : AppCompatActivity() {
+@AndroidEntryPoint
+class MainActivity : BaseActivity<MainActivityBinding>(R.layout.main_activity) {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.main_activity)
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.container, MainFragment.newInstance())
-                .commitNow()
-        }
-    }
 }

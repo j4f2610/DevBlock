@@ -1,32 +1,31 @@
 package com.example.devblock.ui.main
 
-import androidx.lifecycle.ViewModelProvider
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import com.example.devblock.R
+import com.example.devblock.base.BaseFragment
+import com.example.devblock.databinding.MainFragmentBinding
+import com.example.devblock.ui.main.adapter.ContactsAdapter
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
-class MainFragment : Fragment() {
+@AndroidEntryPoint
+class MainFragment : BaseFragment<MainFragmentBinding, MainViewModel>(R.layout.main_fragment) {
 
-    companion object {
-        fun newInstance() = MainFragment()
+    lateinit var mContactsAdapter: ContactsAdapter
+    private val params by navArgs<MainFragmentArgs>()
+
+    override fun bindData() {
+        super.bindData()
+        binding.userInfo = params.userInfo
+        mContactsAdapter = ContactsAdapter()
+        binding.rcvContacts.adapter = mContactsAdapter
+        lifecycleScope.launch {
+            mViewModel.getContact()
+                .collectLatest {
+                    mContactsAdapter.submitData(lifecycle, it)
+                }
+        }
     }
-
-    private lateinit var viewModel: MainViewModel
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        return inflater.inflate(R.layout.main_fragment, container, false)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
-
 }
