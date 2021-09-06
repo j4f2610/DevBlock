@@ -1,14 +1,13 @@
 package com.example.devblock.ui.main
 
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
+import com.example.devblock.MainActivity
 import com.example.devblock.R
 import com.example.devblock.base.BaseFragment
+import com.example.devblock.data.model.ContactInfo
 import com.example.devblock.databinding.MainFragmentBinding
 import com.example.devblock.ui.main.adapter.ContactsAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainFragment : BaseFragment<MainFragmentBinding, MainViewModel>(R.layout.main_fragment) {
@@ -16,16 +15,36 @@ class MainFragment : BaseFragment<MainFragmentBinding, MainViewModel>(R.layout.m
     lateinit var mContactsAdapter: ContactsAdapter
     private val params by navArgs<MainFragmentArgs>()
 
+    override fun fetchData() {
+        super.fetchData()
+        //mViewModel.getContact()
+    }
+
     override fun bindData() {
         super.bindData()
+        (activity as MainActivity).enableBack(false)
         binding.userInfo = params.userInfo
-        mContactsAdapter = ContactsAdapter()
+        mContactsAdapter = ContactsAdapter(object : ContactsAdapter.ContactOnClickListener {
+            override fun onItemClick(contactInfo: ContactInfo) {
+                navController.navigate(
+                    MainFragmentDirections.actionMainFragmentToContactFragment(
+                        contactInfo
+                    )
+                )
+            }
+
+        })
         binding.rcvContacts.adapter = mContactsAdapter
-        lifecycleScope.launch {
-            mViewModel.getContact()
-                .collectLatest {
-                    mContactsAdapter.submitData(lifecycle, it)
-                }
-        }
+//        mViewModel.updateContactInfo.observe(viewLifecycleOwner, { pagingData ->
+//            if (pagingData != null) {
+//                mContactsAdapter.submitData(viewLifecycleOwner.lifecycle, pagingData)
+//            }
+//        })
+        mViewModel.updateContactInfo.observe(viewLifecycleOwner, { pagingData ->
+            if (pagingData != null) {
+                mContactsAdapter.submitData(viewLifecycleOwner.lifecycle, pagingData)
+            }
+        })
+
     }
 }

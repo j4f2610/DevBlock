@@ -10,9 +10,10 @@ import com.example.devblock.R
 import com.example.devblock.data.model.ContactInfo
 import com.example.devblock.databinding.ContactItemLayoutBinding
 
-class ContactsAdapter : PagingDataAdapter<ContactInfo, ContactsAdapter.ContactViewHolder>(
-    COMPARATOR
-) {
+class ContactsAdapter(private val mContactOnClickListener: ContactOnClickListener) :
+    PagingDataAdapter<ContactInfo, ContactsAdapter.ContactViewHolder>(
+        COMPARATOR
+    ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
         return ContactViewHolder(
@@ -26,7 +27,7 @@ class ContactsAdapter : PagingDataAdapter<ContactInfo, ContactsAdapter.ContactVi
     }
 
     override fun onBindViewHolder(holder: ContactViewHolder, position: Int) {
-        getItem(position)?.let { holder.bind(it, position) }
+        getItem(position)?.let { holder.bind(it, mContactOnClickListener) }
     }
 
     companion object {
@@ -44,11 +45,15 @@ class ContactsAdapter : PagingDataAdapter<ContactInfo, ContactsAdapter.ContactVi
     inner class ContactViewHolder(private val binding: ContactItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: ContactInfo, position: Int) {
+        fun bind(item: ContactInfo, contactOnClickListener: ContactOnClickListener) {
             binding.contactInfo = item
             binding.llContact.setOnClickListener {
-
+                contactOnClickListener.onItemClick(contactInfo = item)
             }
         }
+    }
+
+    interface ContactOnClickListener {
+        fun onItemClick(contactInfo: ContactInfo)
     }
 }

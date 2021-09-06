@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="contactInfo"
+            type="com.example.devblock.data.model.ContactInfo" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dp_5">
+
+        <ImageView
+            android:id="@+id/imageView"
+            imageUrl="@{contactInfo.avatar}"
+            android:layout_width="@dimen/dp_50"
+            android:layout_height="@dimen/dp_50"
+            android:layout_marginTop="@dimen/dp_30"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/edtContactFirstName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dp_10"
+            android:text="@{contactInfo.first_name}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintTop_toTopOf="@+id/imageView" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/edtContactLastName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dp_10"
+            android:text="@{contactInfo.last_name}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintTop_toBottomOf="@+id/edtContactFirstName" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/edtContactEmail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{contactInfo.email}"
+            app:layout_constraintEnd_toEndOf="@+id/edtContactLastName"
+            app:layout_constraintStart_toStartOf="@+id/edtContactLastName"
+            app:layout_constraintTop_toBottomOf="@+id/edtContactLastName" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnUpdate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_20"
+            android:text="@string/title_update"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edtContactEmail" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

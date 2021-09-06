@@ -21,5 +21,16 @@
         <argument
             android:name="userInfo"
             app:argType="com.example.devblock.data.model.UserInfo" />
+        <action
+            android:id="@+id/action_mainFragment_to_contactFragment"
+            app:destination="@id/contactFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/contactFragment"
+        android:name="com.example.devblock.ui.contact.ContactFragment"
+        android:label="ContactFragment">
+        <argument
+            android:name="contactInfo"
+            app:argType="com.example.devblock.data.model.ContactInfo" />
     </fragment>
 </navigation>

@@ -22,7 +22,7 @@ class LoginViewModel @Inject constructor() : BaseViewModel() {
 
     fun login(userName: String, password: String) {
         addToDisposable(
-            Completable.timer(3, TimeUnit.SECONDS).doOnSubscribe { _loading.postValue(true) }
+            Completable.timer(1, TimeUnit.SECONDS).doOnSubscribe { _loading.postValue(true) }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doFinally { _loading.postValue(false) }
