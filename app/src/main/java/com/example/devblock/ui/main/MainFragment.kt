@@ -15,11 +15,6 @@ class MainFragment : BaseFragment<MainFragmentBinding, MainViewModel>(R.layout.m
     lateinit var mContactsAdapter: ContactsAdapter
     private val params by navArgs<MainFragmentArgs>()
 
-    override fun fetchData() {
-        super.fetchData()
-        //mViewModel.getContact()
-    }
-
     override fun bindData() {
         super.bindData()
         (activity as MainActivity).enableBack(false)
@@ -35,11 +30,6 @@ class MainFragment : BaseFragment<MainFragmentBinding, MainViewModel>(R.layout.m
 
         })
         binding.rcvContacts.adapter = mContactsAdapter
-//        mViewModel.updateContactInfo.observe(viewLifecycleOwner, { pagingData ->
-//            if (pagingData != null) {
-//                mContactsAdapter.submitData(viewLifecycleOwner.lifecycle, pagingData)
-//            }
-//        })
         mViewModel.updateContactInfo.observe(viewLifecycleOwner, { pagingData ->
             if (pagingData != null) {
                 mContactsAdapter.submitData(viewLifecycleOwner.lifecycle, pagingData)
